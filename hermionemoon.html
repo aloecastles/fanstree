@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>hermionemoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   hermionemoon — luxe link page · shared stylesheet
+   ============================================================ */
+
+:root {
+  --cream:    #F4ECE1;
+  --cream-2:  #EFE3D4;
+  --sand:     #E6D8C5;
+  --taupe:    #CDB89C;
+  --gold:     #B08A4F;
+  --gold-2:   #C7A56F;
+  --ink:      #2E2820;
+  --ink-soft: #6E6150;
+  --ink-faint:#9A8C77;
+  --line:     rgba(46, 40, 32, 0.13);
+  --line-2:   rgba(46, 40, 32, 0.07);
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --sans:  "Jost", system-ui, sans-serif;
+  --mono:  "IBM Plex Mono", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+.page {
+  width: 100%;
+  min-height: 100%;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- shared bits -------------------------------------------------- */
+
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.glyph { color: var(--gold); }
+
+.age-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: rgba(255,255,255,0.35);
+}
+.age-badge b { color: var(--ink); font-weight: 600; letter-spacing: 0.1em; }
+
+/* striped photo placeholder */
+.ph {
+  position: relative;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(135deg,
+      var(--sand) 0 9px,
+      var(--cream-2) 9px 18px);
+  isolation: isolate;
+}
+.ph::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,0.30), transparent 60%);
+}
+.ph .ph-tag {
+  position: absolute;
+  left: 10px;
+  bottom: 9px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  opacity: 0.7;
+}
+.ph .ph-ico {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 26px; height: 26px;
+  border: 1px solid var(--ink-faint);
+  border-radius: 50%;
+  opacity: 0.45;
+}
+.ph .ph-ico::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  opacity: 0.5;
+}
+
+/* lettermark chip for links */
+.mark {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-style: italic;
+  letter-spacing: 0.01em;
+  color: var(--gold);
+}
+
+/* form internals */
+.form { display: flex; flex-direction: column; gap: 12px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.input, .textarea, .select {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--ink);
+  background: rgba(255,255,255,0.55);
+  border: 1px solid var(--line);
+  padding: 11px 13px;
+  width: 100%;
+  outline: none;
+  transition: border-color .18s, background .18s;
+}
+.input::placeholder, .textarea::placeholder { color: var(--ink-faint); }
+.input:focus, .textarea:focus, .select:focus {
+  border-color: var(--gold);
+  background: rgba(255,255,255,0.85);
+}
+.textarea { resize: none; line-height: 1.45; }
+.select { appearance: none; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--gold) 50%),
+                    linear-gradient(135deg, var(--gold) 50%, transparent 50%);
+  background-position: calc(100% - 17px) 18px, calc(100% - 12px) 18px;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+.btn-send {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--cream);
+  background: var(--ink);
+  border: none;
+  padding: 13px 18px;
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+}
+.btn-send:hover { background: var(--gold); }
+.btn-send:active { transform: translateY(1px); }
+.form-done {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 19px;
+  color: var(--gold);
+  padding: 6px 0;
+}
+
+/* section heading shared */
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sec-head h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 26px;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+.sec-head .count {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+}
+
+/* ==================================================================
+   ATELIER — full-bleed hero + gold pills
+   ================================================================== */
+.atelier { padding-bottom: 40px; }
+.atelier .a-hero {
+  position: relative;
+  height: 360px;
+  width: 100%;
+}
+.atelier .a-hero .ph { width: 100%; height: 100%; }
+.atelier .a-hero .a-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgba(36,30,22,0.74) 0%,
+    rgba(36,30,22,0.30) 40%,
+    rgba(36,30,22,0.05) 70%,
+    rgba(255,255,255,0.10) 100%);
+}
+.atelier .a-hero .a-badge { position: absolute; top: 18px; right: 18px; }
+.atelier .a-hero .a-badge .age-badge {
+  background: rgba(20,16,12,0.35);
+  border-color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.85);
+}
+.atelier .a-hero .a-badge .age-badge b { color: #fff; }
+.atelier .a-hero .a-htext {
+  position: absolute;
+  left: 28px; right: 28px; bottom: 26px;
+  color: var(--cream);
+}
+.atelier .a-hero .a-eyebrow {
+  font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--gold-2);
+  font-weight: 500;
+}
+.atelier .a-hero .a-name {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 1;
+  margin: 8px 0 0;
+  color: #fff;
+}
+.atelier .a-hero .a-tag {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 17px;
+  color: rgba(255,255,255,0.86);
+  margin: 8px 0 0;
+  max-width: 300px;
+  text-wrap: pretty;
+}
+
+.atelier .a-body { padding: 26px 28px 0; }
+.atelier .a-links { display: flex; flex-direction: column; gap: 11px; margin-bottom: 36px; }
+.atelier .a-pill {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.4);
+  text-decoration: none;
+  color: var(--ink);
+  transition: background .2s, transform .12s, box-shadow .2s;
+}
+.atelier .a-pill:hover {
+  background: var(--ink);
+  color: var(--cream);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(46,40,32,0.18);
+}
+.atelier .a-pill:hover .mark { color: var(--gold-2); }
+.atelier .a-pill:hover .l-note { color: rgba(244,236,225,0.7); }
+.atelier .a-pill .mark {
+  width: 30px; height: 30px;
+  font-size: 17px;
+}
+.atelier .a-pill .l-body { flex: 1; }
+.atelier .a-pill .l-name {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.atelier .a-pill .l-note {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.atelier .a-pill .l-arrow { color: var(--gold); font-size: 15px; }
+
+.atelier .a-card {
+  margin-top: 18px;
+  background: rgba(255,255,255,0.45);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  padding: 22px 20px;
+}
+.atelier .a-card .c-title { font-family: var(--serif); font-size: 23px; margin: 0 0 4px; }
+.atelier .a-card .c-sub {
+  font-family: var(--serif); font-style: italic; font-size: 14px;
+  color: var(--ink-soft); margin: 0 0 16px;
+}
+.atelier .a-foot {
+  text-align: center;
+  margin-top: 34px;
+  font-family: var(--serif);
+  letter-spacing: 0.18em;
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+
+/* ==================================================================
+   STANDALONE ATELIER PAGE — centered shell
+   ================================================================== */
+body.atelier-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(120% 80% at 50% 0%, #E9DECC 0%, #DDD0BC 55%, #D2C4AE 100%);
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+.shell {
+  width: 100%;
+  max-width: 440px;
+  background: var(--cream);
+  box-shadow: 0 24px 70px rgba(46,40,32,0.22);
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+}
+@media (min-width: 480px) {
+  body.atelier-shell { padding: 28px 0; }
+  .shell { min-height: auto; border: 1px solid rgba(255,255,255,0.5); }
+}
+
+/* ==================================================================
+   THE GALLERY — openable folders
+   ================================================================== */
+.atelier .a-folders {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 18px;
+}
+.a-folder {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(255,255,255,0.62);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  z-index: 1;
+  transition: transform .18s, box-shadow .22s;
+}
+/* stacked-paper "more inside" effect */
+.a-folder::before,
+.a-folder::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.4);
+  z-index: -1;
+  transition: transform .22s;
+}
+.a-folder::before { transform: translateY(-5px) scaleX(0.965); }
+.a-folder::after  { transform: translateY(-10px) scaleX(0.93); }
+.a-folder:hover { transform: translateY(-1px); box-shadow: 0 10px 26px rgba(46,40,32,0.14); }
+.a-folder:hover::before { transform: translateY(-7px) scaleX(0.965); }
+.a-folder:hover::after  { transform: translateY(-13px) scaleX(0.93); }
+
+.a-folder .fld-cover {
+  flex: 0 0 auto;
+  width: 70px; height: 88px;
+  position: relative;
+}
+.a-folder .fld-cover .ph { width: 100%; height: 100%; }
+.a-folder .fld-body { flex: 1; min-width: 0; }
+.a-folder .fld-name {
+  font-family: var(--serif);
+  font-size: 24px;
+  line-height: 1.05;
+  margin: 0;
+}
+.a-folder .fld-note {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 6px;
+}
+.a-folder .fld-open {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.a-folder.locked .fld-note { color: var(--gold); }
+.a-folder .fld-lock {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* folder lightbox overlay */
+.fld-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: rgba(34, 28, 22, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 18px;
+  overflow: auto;
+  animation: fld-fade .22s ease;
+}
+@keyframes fld-fade { from { opacity: 0; } to { opacity: 1; } }
+.fld-panel {
+  width: 100%;
+  max-width: 404px;
+  background: var(--cream);
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 0 30px 80px rgba(20,14,10,0.5);
+  animation: fld-rise .28s cubic-bezier(.2,.7,.3,1);
+}
+@keyframes fld-rise { from { transform: translateY(24px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.fld-panel-head {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 20px 14px;
+  background: linear-gradient(var(--cream) 70%, rgba(244,236,225,0));
+}
+.fld-panel-head h3 { font-family: var(--serif); font-weight: 400; font-size: 28px; margin: 0; line-height: 1; }
+.fld-panel-head .fld-sub {
+  font-family: var(--sans); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-soft); margin-top: 7px;
+}
+.fld-close {
+  flex: 0 0 auto;
+  width: 32px; height: 32px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  color: var(--ink);
+  font-size: 17px; line-height: 1;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, color .15s;
+}
+.fld-close:hover { background: var(--ink); color: var(--cream); }
+.fld-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 20px 22px;
+}
+.fld-grid .ph { aspect-ratio: 3 / 4; }
+.fld-locked-body {
+  padding: 10px 26px 34px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.fld-locked-body .lk-ring {
+  width: 58px; height: 58px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold);
+}
+.fld-locked-body p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 260px;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+.fld-locked-body .blur-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  width: 100%;
+  margin-top: 4px;
+}
+.fld-locked-body .blur-preview .ph {
+  aspect-ratio: 3 / 4;
+  filter: blur(5px);
+  opacity: 0.7;
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGKgtM9kRQ0kJzf6WMXMY7N8OKUJFBkb8dTtdpFE0VJAmijJA8pPL" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- shared components: Photo, Mark, AgeBadge, MessageForm, RequestForm -->
+<script type="text/babel">
+const { useState } = React;
+
+function Photo({ label, className = "", style }) {
+  return (
+    <div className={"ph " + className} style={style}>
+      <span className="ph-ico"></span>
+      {label && <span className="ph-tag">{label}</span>}
+    </div>
+  );
+}
+
+function Mark({ children }) {
+  return <span className="mark">{children}</span>;
+}
+
+function AgeBadge() {
+  return (
+    <span className="age-badge"><b>18+</b> members only</span>
+  );
+}
+
+function MessageForm() {
+  const [sent, setSent] = useState(false);
+  if (sent) {
+    return (
+      <div className="form-done">
+        <span className="glyph">✦</span> sent — i'll read every word.
+      </div>
+    );
+  }
+  return (
+    <form className="form" onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
+      <div className="field">
+        <label>your name</label>
+        <input className="input" type="text" placeholder="what should i call you?" required />
+      </div>
+      <div className="field">
+        <label>a little something</label>
+        <textarea className="textarea" rows="3" placeholder="say hi, tell me a secret…" required></textarea>
+      </div>
+      <button className="btn-send" type="submit">send it to me ✦</button>
+    </form>
+  );
+}
+
+function RequestForm() {
+  const [sent, setSent] = useState(false);
+  if (sent) {
+    return (
+      <div className="form-done">
+        <span className="glyph">✦</span> request received — let me think on it.
+      </div>
+    );
+  }
+  return (
+    <form className="form" onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
+      <div className="field">
+        <label>what are you after?</label>
+        <select className="select" defaultValue="">
+          <option value="" disabled>choose a fantasy…</option>
+          <option>a custom photo set</option>
+          <option>a personal video</option>
+          <option>something worn &amp; sent</option>
+          <option>a one-of-one, just for you</option>
+        </select>
+      </div>
+      <div className="field">
+        <label>the details</label>
+        <textarea className="textarea" rows="3" placeholder="tell me exactly what you imagine…"></textarea>
+      </div>
+      <button className="btn-send" type="submit">request it ✦</button>
+    </form>
+  );
+}
+
+Object.assign(window, { Photo, Mark, AgeBadge, MessageForm, RequestForm });
+</script>
+
+<!-- gallery folders component -->
+<script type="text/babel">
+const { useState: useFState, useEffect: useFEffect } = React;
+
+const FOLDERS = [
+  { key: "dark",    name: "after dark",         sub: "08 frames · uncensored", count: 8, locked: false },
+  { key: "curtain", name: "behind the curtain", sub: "06 frames · backstage",  count: 6, locked: false },
+  { key: "you",     name: "just for you",       sub: "members only · locked",  count: 0, locked: true  },
+];
+
+function LockIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size * 1.1} viewBox="0 0 20 22" fill="none"
+         stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+      <rect x="3" y="9" width="14" height="11" rx="2.2" />
+      <path d="M6 9V6a4 4 0 0 1 8 0v3" />
+    </svg>
+  );
+}
+
+function FolderCard({ folder, onOpen }) {
+  return (
+    <div className={"a-folder" + (folder.locked ? " locked" : "")} onClick={() => onOpen(folder)}>
+      <div className="fld-cover">
+        <Photo label="" />
+        {folder.locked && <span className="fld-lock"><LockIcon size={16} /></span>}
+      </div>
+      <div className="fld-body">
+        <h3 className="fld-name">{folder.name}</h3>
+        <div className="fld-note">{folder.sub}</div>
+      </div>
+      <div className="fld-open">
+        {folder.locked ? "unlock" : "open"} <span aria-hidden="true">→</span>
+      </div>
+    </div>
+  );
+}
+
+function FolderOverlay({ folder, onClose, onRequestAccess }) {
+  useFEffect(() => {
+    const k = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", k);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", k);
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  return (
+    <div className="fld-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="fld-panel">
+        <div className="fld-panel-head">
+          <div>
+            <h3>{folder.name}</h3>
+            <div className="fld-sub">{folder.sub}</div>
+          </div>
+          <button className="fld-close" onClick={onClose} aria-label="close">×</button>
+        </div>
+
+        {folder.locked ? (
+          <div className="fld-locked-body">
+            <div className="lk-ring"><LockIcon /></div>
+            <p>this one stays behind the velvet rope — unlock me on OnlyFans and it's all yours.</p>
+            <div className="blur-preview">
+              <Photo label="" /><Photo label="" /><Photo label="" />
+            </div>
+            <button className="btn-send" onClick={() => { onClose(); onRequestAccess && onRequestAccess(); }}>
+              request access ✦
+            </button>
+          </div>
+        ) : (
+          <div className="fld-grid">
+            {Array.from({ length: folder.count }).map((_, i) => (
+              <Photo key={i} label={folder.key + " " + String(i + 1).padStart(2, "0")} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function FolderGallery({ onRequestAccess }) {
+  const [open, setOpen] = useFState(null);
+  return (
+    <React.Fragment>
+      <div className="a-folders">
+        {FOLDERS.map((f) => <FolderCard key={f.key} folder={f} onOpen={setOpen} />)}
+      </div>
+      {open && (
+        <FolderOverlay
+          folder={open}
+          onClose={() => setOpen(null)}
+          onRequestAccess={onRequestAccess}
+        />
+      )}
+    </React.Fragment>
+  );
+}
+
+Object.assign(window, { FolderGallery });
+</script>
+
+<!-- atelier page -->
+<script type="text/babel">
+const A_NAME = "hermionemoon";
+const A_TAG  = "what happens after midnight stays between us.";
+
+const A_LINKS = [
+  { mark: "Of", name: "OnlyFans",  note: "everything, uncensored",  href: "#" },
+  { mark: "Fa", name: "Fansly",    note: "where i go further",      href: "#" },
+  { mark: "Ig", name: "Instagram", note: "the softer side of me",   href: "#" },
+  { mark: "Tg", name: "Telegram",  note: "come a little closer",    href: "#" },
+  { mark: "X",  name: "Twitter",   note: "unfiltered thoughts",     href: "#" },
+  { mark: "Sc", name: "Stripchat", note: "live — right now",        href: "#" },
+];
+
+function scrollToRequest() {
+  setTimeout(() => {
+    const el = document.getElementById("request-card");
+    if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 24);
+  }, 60);
+}
+
+function AtelierPage() {
+  return (
+    <div className="shell">
+      <div className="page atelier">
+        <header className="a-hero">
+          <Photo label="hero portrait" />
+          <div className="a-scrim"></div>
+          <div className="a-badge"><AgeBadge /></div>
+          <div className="a-htext">
+            <div className="a-eyebrow">after dark ✦ members only</div>
+            <h1 className="a-name">{A_NAME}</h1>
+            <p className="a-tag">{A_TAG}</p>
+          </div>
+        </header>
+
+        <div className="a-body">
+          <nav className="a-links">
+            {A_LINKS.map((l) => (
+              <a className="a-pill" href={l.href} key={l.name}>
+                <Mark>{l.mark}</Mark>
+                <span className="l-body">
+                  <div className="l-name">{l.name}</div>
+                  <div className="l-note">{l.note}</div>
+                </span>
+                <span className="l-arrow">→</span>
+              </a>
+            ))}
+          </nav>
+
+          <div className="sec-head">
+            <h2>the gallery</h2>
+            <span className="count">03 collections</span>
+          </div>
+          <FolderGallery onRequestAccess={scrollToRequest} />
+
+          <div className="a-card">
+            <h3 className="c-title">whisper to me</h3>
+            <p className="c-sub">a message, just between us two.</p>
+            <MessageForm />
+          </div>
+
+          <div className="a-card" id="request-card">
+            <h3 className="c-title">made for you</h3>
+            <p className="c-sub">tell me what you've been imagining.</p>
+            <RequestForm />
+          </div>
+
+          <div className="a-foot">h · m ✦ {A_NAME}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+document.body.classList.add("atelier-shell");
+ReactDOM.createRoot(document.getElementById("root")).render(<AtelierPage />);
+</script>
+</body>
+</html>
