@@ -531,93 +531,77 @@ body.atelier-shell {
 </head>
 <body>
 <div id="root"></div>
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGKgtM9kRQ0kJzf6WMXMY7N8OKUJFBkb8dTtdpFE0VJAmijJA8pPL" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
 
-<!-- shared components: Photo, Mark, AgeBadge, MessageForm, RequestForm -->
-<script type="text/babel">
-const { useState } = React;
+<script>
+const { createElement: h, Fragment, useState, useEffect } = React;
 
 function Photo({ label, className = "", style }) {
-  return (
-    <div className={"ph " + className} style={style}>
-      <span className="ph-ico"></span>
-      {label && <span className="ph-tag">{label}</span>}
-    </div>
+  return h("div", { className: "ph " + className, style },
+    h("span", { className: "ph-ico" }),
+    label && h("span", { className: "ph-tag" }, label)
   );
 }
 
 function Mark({ children }) {
-  return <span className="mark">{children}</span>;
+  return h("span", { className: "mark" }, children);
 }
 
 function AgeBadge() {
-  return (
-    <span className="age-badge"><b>18+</b> members only</span>
+  return h("span", { className: "age-badge" },
+    h("b", null, "18+"),
+    " members only"
   );
 }
 
 function MessageForm() {
   const [sent, setSent] = useState(false);
   if (sent) {
-    return (
-      <div className="form-done">
-        <span className="glyph">✦</span> sent — i'll read every word.
-      </div>
+    return h("div", { className: "form-done" },
+      h("span", { className: "glyph" }, "✦"),
+      " sent — i'll read every word."
     );
   }
-  return (
-    <form className="form" onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
-      <div className="field">
-        <label>your name</label>
-        <input className="input" type="text" placeholder="what should i call you?" required />
-      </div>
-      <div className="field">
-        <label>a little something</label>
-        <textarea className="textarea" rows="3" placeholder="say hi, tell me a secret…" required></textarea>
-      </div>
-      <button className="btn-send" type="submit">send it to me ✦</button>
-    </form>
+  return h("form", { className: "form", onSubmit: (e) => { e.preventDefault(); setSent(true); } },
+    h("div", { className: "field" },
+      h("label", null, "your name"),
+      h("input", { className: "input", type: "text", placeholder: "what should i call you?", required: true })
+    ),
+    h("div", { className: "field" },
+      h("label", null, "a little something"),
+      h("textarea", { className: "textarea", rows: "3", placeholder: "say hi, tell me a secret…", required: true })
+    ),
+    h("button", { className: "btn-send", type: "submit" }, "send it to me ✦")
   );
 }
 
 function RequestForm() {
   const [sent, setSent] = useState(false);
   if (sent) {
-    return (
-      <div className="form-done">
-        <span className="glyph">✦</span> request received — let me think on it.
-      </div>
+    return h("div", { className: "form-done" },
+      h("span", { className: "glyph" }, "✦"),
+      " request received — let me think on it."
     );
   }
-  return (
-    <form className="form" onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
-      <div className="field">
-        <label>what are you after?</label>
-        <select className="select" defaultValue="">
-          <option value="" disabled>choose a fantasy…</option>
-          <option>a custom photo set</option>
-          <option>a personal video</option>
-          <option>something worn &amp; sent</option>
-          <option>a one-of-one, just for you</option>
-        </select>
-      </div>
-      <div className="field">
-        <label>the details</label>
-        <textarea className="textarea" rows="3" placeholder="tell me exactly what you imagine…"></textarea>
-      </div>
-      <button className="btn-send" type="submit">request it ✦</button>
-    </form>
+  return h("form", { className: "form", onSubmit: (e) => { e.preventDefault(); setSent(true); } },
+    h("div", { className: "field" },
+      h("label", null, "what are you after?"),
+      h("select", { className: "select", defaultValue: "" },
+        h("option", { value: "", disabled: true }, "choose a fantasy…"),
+        h("option", null, "a custom photo set"),
+        h("option", null, "a personal video"),
+        h("option", null, "something worn & sent"),
+        h("option", null, "a one-of-one, just for you")
+      )
+    ),
+    h("div", { className: "field" },
+      h("label", null, "the details"),
+      h("textarea", { className: "textarea", rows: "3", placeholder: "tell me exactly what you imagine…" })
+    ),
+    h("button", { className: "btn-send", type: "submit" }, "request it ✦")
   );
 }
-
-Object.assign(window, { Photo, Mark, AgeBadge, MessageForm, RequestForm });
-</script>
-
-<!-- gallery folders component -->
-<script type="text/babel">
-const { useState: useFState, useEffect: useFEffect } = React;
 
 const FOLDERS = [
   { key: "dark",    name: "after dark",         sub: "08 frames · uncensored", count: 8, locked: false },
@@ -626,35 +610,32 @@ const FOLDERS = [
 ];
 
 function LockIcon({ size = 20 }) {
-  return (
-    <svg width={size} height={size * 1.1} viewBox="0 0 20 22" fill="none"
-         stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-      <rect x="3" y="9" width="14" height="11" rx="2.2" />
-      <path d="M6 9V6a4 4 0 0 1 8 0v3" />
-    </svg>
+  return h("svg", { width: size, height: size * 1.1, viewBox: "0 0 20 22", fill: "none", stroke: "currentColor", strokeWidth: "1.4", strokeLinecap: "round" },
+    h("rect", { x: "3", y: "9", width: "14", height: "11", rx: "2.2" }),
+    h("path", { d: "M6 9V6a4 4 0 0 1 8 0v3" })
   );
 }
 
 function FolderCard({ folder, onOpen }) {
-  return (
-    <div className={"a-folder" + (folder.locked ? " locked" : "")} onClick={() => onOpen(folder)}>
-      <div className="fld-cover">
-        <Photo label="" />
-        {folder.locked && <span className="fld-lock"><LockIcon size={16} /></span>}
-      </div>
-      <div className="fld-body">
-        <h3 className="fld-name">{folder.name}</h3>
-        <div className="fld-note">{folder.sub}</div>
-      </div>
-      <div className="fld-open">
-        {folder.locked ? "unlock" : "open"} <span aria-hidden="true">→</span>
-      </div>
-    </div>
+  return h("div", { className: "a-folder" + (folder.locked ? " locked" : ""), onClick: () => onOpen(folder) },
+    h("div", { className: "fld-cover" },
+      h(Photo, { label: "" }),
+      folder.locked && h("span", { className: "fld-lock" }, h(LockIcon, { size: 16 }))
+    ),
+    h("div", { className: "fld-body" },
+      h("h3", { className: "fld-name" }, folder.name),
+      h("div", { className: "fld-note" }, folder.sub)
+    ),
+    h("div", { className: "fld-open" },
+      folder.locked ? "unlock" : "open",
+      " ",
+      h("span", { "aria-hidden": "true" }, "→")
+    )
   );
 }
 
 function FolderOverlay({ folder, onClose, onRequestAccess }) {
-  useFEffect(() => {
+  useEffect(() => {
     const k = (e) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", k);
     document.body.style.overflow = "hidden";
@@ -664,63 +645,47 @@ function FolderOverlay({ folder, onClose, onRequestAccess }) {
     };
   }, []);
 
-  return (
-    <div className="fld-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div className="fld-panel">
-        <div className="fld-panel-head">
-          <div>
-            <h3>{folder.name}</h3>
-            <div className="fld-sub">{folder.sub}</div>
-          </div>
-          <button className="fld-close" onClick={onClose} aria-label="close">×</button>
-        </div>
-
-        {folder.locked ? (
-          <div className="fld-locked-body">
-            <div className="lk-ring"><LockIcon /></div>
-            <p>this one stays behind the velvet rope — unlock me on OnlyFans and it's all yours.</p>
-            <div className="blur-preview">
-              <Photo label="" /><Photo label="" /><Photo label="" />
-            </div>
-            <button className="btn-send" onClick={() => { onClose(); onRequestAccess && onRequestAccess(); }}>
-              request access ✦
-            </button>
-          </div>
-        ) : (
-          <div className="fld-grid">
-            {Array.from({ length: folder.count }).map((_, i) => (
-              <Photo key={i} label={folder.key + " " + String(i + 1).padStart(2, "0")} />
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+  return h("div", { className: "fld-overlay", onClick: (e) => { if (e.target === e.currentTarget) onClose(); } },
+    h("div", { className: "fld-panel" },
+      h("div", { className: "fld-panel-head" },
+        h("div", null,
+          h("h3", null, folder.name),
+          h("div", { className: "fld-sub" }, folder.sub)
+        ),
+        h("button", { className: "fld-close", onClick: onClose, "aria-label": "close" }, "×")
+      ),
+      folder.locked ? (
+        h("div", { className: "fld-locked-body" },
+          h("div", { className: "lk-ring" }, h(LockIcon, null)),
+          h("p", null, "this one stays behind the velvet rope — unlock me on OnlyFans and it's all yours."),
+          h("div", { className: "blur-preview" },
+            h(Photo, { label: "" }),
+            h(Photo, { label: "" }),
+            h(Photo, { label: "" })
+          ),
+          h("button", { className: "btn-send", onClick: () => { onClose(); onRequestAccess && onRequestAccess(); } }, "request access ✦")
+        )
+      ) : (
+        h("div", { className: "fld-grid" },
+          Array.from({ length: folder.count }).map((_, i) =>
+            h(Photo, { key: i, label: folder.key + " " + String(i + 1).padStart(2, "0") })
+          )
+        )
+      )
+    )
   );
 }
 
 function FolderGallery({ onRequestAccess }) {
-  const [open, setOpen] = useFState(null);
-  return (
-    <React.Fragment>
-      <div className="a-folders">
-        {FOLDERS.map((f) => <FolderCard key={f.key} folder={f} onOpen={setOpen} />)}
-      </div>
-      {open && (
-        <FolderOverlay
-          folder={open}
-          onClose={() => setOpen(null)}
-          onRequestAccess={onRequestAccess}
-        />
-      )}
-    </React.Fragment>
+  const [open, setOpen] = useState(null);
+  return h(Fragment, null,
+    h("div", { className: "a-folders" },
+      FOLDERS.map((f) => h(FolderCard, { key: f.key, folder: f, onOpen: setOpen }))
+    ),
+    open && h(FolderOverlay, { folder: open, onClose: () => setOpen(null), onRequestAccess })
   );
 }
 
-Object.assign(window, { FolderGallery });
-</script>
-
-<!-- atelier page -->
-<script type="text/babel">
 const A_NAME = "hermionemoon";
 const A_TAG  = "what happens after midnight stays between us.";
 
@@ -741,61 +706,54 @@ function scrollToRequest() {
 }
 
 function AtelierPage() {
-  return (
-    <div className="shell">
-      <div className="page atelier">
-        <header className="a-hero">
-          <Photo label="hero portrait" />
-          <div className="a-scrim"></div>
-          <div className="a-badge"><AgeBadge /></div>
-          <div className="a-htext">
-            <div className="a-eyebrow">after dark ✦ members only</div>
-            <h1 className="a-name">{A_NAME}</h1>
-            <p className="a-tag">{A_TAG}</p>
-          </div>
-        </header>
-
-        <div className="a-body">
-          <nav className="a-links">
-            {A_LINKS.map((l) => (
-              <a className="a-pill" href={l.href} key={l.name}>
-                <Mark>{l.mark}</Mark>
-                <span className="l-body">
-                  <div className="l-name">{l.name}</div>
-                  <div className="l-note">{l.note}</div>
-                </span>
-                <span className="l-arrow">→</span>
-              </a>
-            ))}
-          </nav>
-
-          <div className="sec-head">
-            <h2>the gallery</h2>
-            <span className="count">03 collections</span>
-          </div>
-          <FolderGallery onRequestAccess={scrollToRequest} />
-
-          <div className="a-card">
-            <h3 className="c-title">whisper to me</h3>
-            <p className="c-sub">a message, just between us two.</p>
-            <MessageForm />
-          </div>
-
-          <div className="a-card" id="request-card">
-            <h3 className="c-title">made for you</h3>
-            <p className="c-sub">tell me what you've been imagining.</p>
-            <RequestForm />
-          </div>
-
-          <div className="a-foot">h · m ✦ {A_NAME}</div>
-        </div>
-      </div>
-    </div>
+  return h("div", { className: "shell" },
+    h("div", { className: "page atelier" },
+      h("header", { className: "a-hero" },
+        h(Photo, { label: "hero portrait" }),
+        h("div", { className: "a-scrim" }),
+        h("div", { className: "a-badge" }, h(AgeBadge, null)),
+        h("div", { className: "a-htext" },
+          h("div", { className: "a-eyebrow" }, "after dark ✦ members only"),
+          h("h1", { className: "a-name" }, A_NAME),
+          h("p", { className: "a-tag" }, A_TAG)
+        )
+      ),
+      h("div", { className: "a-body" },
+        h("nav", { className: "a-links" },
+          A_LINKS.map((l) =>
+            h("a", { className: "a-pill", href: l.href, key: l.name },
+              h(Mark, null, l.mark),
+              h("span", { className: "l-body" },
+                h("div", { className: "l-name" }, l.name),
+                h("div", { className: "l-note" }, l.note)
+              ),
+              h("span", { className: "l-arrow" }, "→")
+            )
+          )
+        ),
+        h("div", { className: "sec-head" },
+          h("h2", null, "the gallery"),
+          h("span", { className: "count" }, "03 collections")
+        ),
+        h(FolderGallery, { onRequestAccess: scrollToRequest }),
+        h("div", { className: "a-card" },
+          h("h3", { className: "c-title" }, "whisper to me"),
+          h("p", { className: "c-sub" }, "a message, just between us two."),
+          h(MessageForm, null)
+        ),
+        h("div", { className: "a-card", id: "request-card" },
+          h("h3", { className: "c-title" }, "made for you"),
+          h("p", { className: "c-sub" }, "tell me what you've been imagining."),
+          h(RequestForm, null)
+        ),
+        h("div", { className: "a-foot" }, "h · m ✦ " + A_NAME)
+      )
+    )
   );
 }
 
 document.body.classList.add("atelier-shell");
-ReactDOM.createRoot(document.getElementById("root")).render(<AtelierPage />);
+ReactDOM.createRoot(document.getElementById("root")).render(h(AtelierPage, null));
 </script>
 </body>
 </html>
